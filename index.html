@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        #instruction, #feedback, #moves-left, #game-info, #timer {
+            margin: 10px 0;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #restart {
+            margin-top: 20px;
+            padding: 10px 20px;
+        }
+
+        /* Copyright section */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess the Number</h1>
+        <p id="instruction">Select a difficulty level to begin:</p>
+        <div id="difficulty-selection"></div>
+        <div id="game-area" style="display: none;">
+            <p id="game-info"></p>
+            <p id="timer">Time left: <span id="time-left">0</span> seconds</p>
+            <input type="number" id="guess-input" placeholder="Enter your guess" disabled>
+            <button id="submit-guess" disabled>Submit Guess</button>
+            <p id="feedback"></p>
+            <p id="moves-left"></p>
+        </div>
+        <button id="restart" style="display: none;">Play Again</button>
+    </div>
+
+    <!-- Copyright -->
+    <footer>
+        <p>&copy; 2024 NerdJoe. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Difficulty modes
+        const difficulties = [
+            { name: "Casual Mode", min: 1, max: 100, moves: Infinity, time: 120 },
+            { name: "Adventurer's Challenge", min: 1, max: 1000, moves: Infinity, time: 180 },
+            { name: "Warrior's Path", min: 1, max: 10000, moves: 100, time: 180 },
+            { name: "The Abyss", min: -100, max: 100, moves: 50, time: 120 },
+            { name: "Madman's Gambit", min: -1000, max: 1000, moves: 25, time: 90 },
+            { name: "Nightmare Realm", min: -10000, max: 10000, moves: 20, time: 60 },
+            { name: "Galactic Odyssey", min: 1, max: 1000000, moves: 10, time: 180 },
+            { name: "The Infinite Struggle", min: 1, max: 10000000000, moves: 5, time: 300 },
+            { name: "Cosmic Dilemma", min: -1000000, max: 1000000, moves: 3, time: 60 },
+            { name: "Quantum Meltdown", min: -10000000000, max: 10000000000, moves: 5, time: 30 }, // Adjusted
+            { name: "Intergalactic Warzone", min: -100000000, max: 100000000, moves: 3, time: 90 }, // Adjusted
+            { name: "Void's Edge", min: -1000000000, max: 1000000000, moves: 2, time: 60 } // Hardest level
+        ];
+
+        // Global variables
+        let selectedDifficulty, answer, movesLeft, timerInterval, timeLeft;
+
+        // DOM elements
+        const difficultySelection = document.getElementById("difficulty-selection");
+        const gameArea = document.getElementById("game-area");
+        const instruction = document.getElementById("instruction");
+        const guessInput = document.getElementById("guess-input");
+        const submitGuessButton = document.getElementById("submit-guess");
+        const feedback = document.getElementById("feedback");
+        const movesLeftDisplay = document.getElementById("moves-left");
+        const gameInfo = document.getElementById("game-info");
+        const timerDisplay = document.getElementById("time-left");
+        const restartButton = document.getElementById("restart");
+
+        // Populate difficulty options
+        difficulties.forEach((difficulty, index) => {
+            const button = document.createElement("button");
+            button.textContent = difficulty.name;
+            button.onclick = () => startGame(index);
+            difficultySelection.appendChild(button);
+        });
+
+        // Start the game
+        function startGame(difficultyIndex) {
+            selectedDifficulty = difficulties[difficultyIndex];
+            answer = Math.floor(Math.random() * (selectedDifficulty.max - selectedDifficulty.min + 1)) + selectedDifficulty.min;
+            movesLeft = selectedDifficulty.moves;
+            timeLeft = selectedDifficulty.time;
+
+            instruction.style.display = "none";
+            difficultySelection.style.display = "none";
+            gameArea.style.display = "block";
+            restartButton.style.display = "none";
+            guessInput.disabled = false;
+            submitGuessButton.disabled = false;
+
+            feedback.textContent = "";
+            gameInfo.textContent = `Guess a number between ${selectedDifficulty.min} and ${selectedDifficulty.max}`;
+            movesLeftDisplay.textContent = `Moves left: ${movesLeft}`;
+            timerDisplay.textContent = timeLeft;
+
+            // Start the timer
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    endGame(false);
+                }
+            }, 1000);
+        }
+
+        // Handle guess submission
+        submitGuessButton.onclick = () => {
+            const guess = Number(guessInput.value);
+            if (isNaN(guess)) {
+                feedback.textContent = "Please enter a valid number!";
+                return;
+            }
+
+            if (guess < answer) {
+                feedback.textContent = "The number is higher!";
+            } else if (guess > answer) {
+                feedback.textContent = "The number is lower!";
+            } else {
+                endGame(true);
+                return;
+            }
+
+            movesLeft--;
+            movesLeftDisplay.textContent = `Moves left: ${movesLeft}`;
+            if (movesLeft <= 0) {
+                endGame(false);
+            }
+        };
+
+        // End the game
+        function endGame(won) {
+            clearInterval(timerInterval);
+            guessInput.disabled = true;
+            submitGuessButton.disabled = true;
+
+            if (won) {
+                feedback.textContent = `Congratulations! You guessed the correct number: ${answer}`;
+            } else {
+                feedback.textContent = `Game over! The correct number was: ${answer}`;
+            }
+
+            restartButton.style.display = "block";
+        }
+
+        // Restart the game
+        restartButton.onclick = () => {
+            instruction.style.display = "block";
+            difficultySelection.style.display = "block";
+            gameArea.style.display = "none";
+            restartButton.style.display = "none";
+            guessInput.value = "";
+        };
+    </script>
+</body>
+</html>

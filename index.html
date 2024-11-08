@@ -6,28 +6,35 @@
     <title>Guess the Number</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        font-family: 'Share Tech Mono', monospace;
+        background-color: #0d0d0d;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: #00ff00;
         }
 
         .game-container {
-            background: #fff;
+            background: #1a1a1a;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
             text-align: center;
             margin-bottom: 20px;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            animation: glitch 1.5s infinite;
         }
 
         h1 {
             margin: 0;
-            color: #333;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00, 0 0 10px #33ff33;
+            font-size: 2em;
+            animation: glitch 1.5s infinite;
         }
 
         #instruction, #feedback, #moves-left, #game-info, #timer {
@@ -37,33 +44,82 @@
         input, button {
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ccc;
+            border: 1px solid #00ff00;
             border-radius: 5px;
+            background-color: #333;
+            color: #00ff00;
+            font-family: 'Share Tech Mono', monospace;
+            transition: box-shadow 0.3s;
+        }
+
+        input:focus, button:hover {
+            box-shadow: 0 0 8px #00ff00;
+            outline: none;
         }
 
         button {
-            background-color: #4CAF50;
-            color: white;
             cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
         }
 
         button:disabled {
-            background-color: #ccc;
+            background-color: #555;
+            color: #777;
             cursor: not-allowed;
+            border-color: #777;
         }
 
         #restart {
             margin-top: 20px;
             padding: 10px 20px;
+            background-color: #ff1a1a;
+            color: #00ff00;
+            border: 1px solid #ff3333;
+            transition: background-color 0.3s;
+        }
+
+        #restart:hover {
+            background-color: #ff3333;
+            box-shadow: 0 0 10px #ff3333;
         }
 
         /* Copyright section */
         footer {
             text-align: center;
             margin-top: 20px;
-            color: #777;
+            color: #00ff00;
             font-size: 12px;
         }
+
+        /* Glitch animation */
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+                opacity: 1;
+           }
+           20% {
+               transform: translate(-2px, 2px);
+               opacity: 0.8;
+           }
+           40% {
+               transform: translate(2px, -2px);
+               opacity: 1;
+           }
+           60% {
+               transform: translate(-2px, 2px);
+               opacity: 0.8;
+           }
+           80% {
+                transform: translate(2px, -2px);
+                opacity: 1;
+            }
+           100% {
+                transform: translate(0);
+                opacity: 1;
+            }
+        }
+
     </style>
 </head>
 <body>

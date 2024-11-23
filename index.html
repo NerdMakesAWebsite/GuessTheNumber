@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Number</title>
+	
+    <!-- Favicon (Tab Image) -->
+    <link rel="icon" type="image/png" href="NLC Profile.png">
+	
     <style>
         body {
         font-family: 'Share Tech Mono', monospace;
@@ -119,6 +123,10 @@
                 opacity: 1;
             }
         }
+		
+		.hidden {
+		    display: none;
+		}
 
     </style>
 </head>
@@ -138,26 +146,73 @@
         <button id="restart" style="display: none;">Play Again</button>
     </div>
 
+    <!-- Audio for certain sound effects -->
+    <audio id="correct-sound" src="Correct.mp3"></audio>
+    <audio id="wrong-sound" src="Wrong.mp3"></audio>
+	<audio id="level-click-sound" src="level-button.mp3"></audio>
+	<audio id="game-over-sound" src="Game Over.mp3"></audio>
+	
+	<!-- Audio for theme -->
+	<!-- Default -->
+	<audio id="default-sound" src="Bossa Me.mp3" loop></audio>
+	<button id="play-sound">Music: Off</button> <button>Hard Mode (Coming Soon)</button>
+	<!-- Every level's theme -->
+	<audio id="soft-sound" src="Sunset Party.mp3" loop></audio>
+	<audio id="calm-sound" src="Relaxed Scene.mp3" loop></audio>
+	<audio id="blades-sound" src="Bossa Nova Party (Remastered).mp3" loop></audio>
+	<audio id="abyss-sound" src="Violet Clouds.mp3" loop></audio>
+	<audio id="insanity-sound" src="Solute.mp3" loop></audio>
+	<audio id="realm-sound" src="Obby7.mp3" loop></audio>
+	<audio id="quest-sound" src="All Dropping 8 Bit Beats.mp3" loop></audio>
+	<audio id="chiptune-sound" src="All 8 Bit Now.mp3" loop></audio>
+	<audio id="nebula-sound" src="M.U.L.E (Bitblaster Mix).mp3" loop></audio>
+	<audio id="quantum-sound" src="Bonetrousle.mp3" loop></audio>
+	<audio id="last-boss?-sound" src="Finale.mp3" loop></audio>
+	<audio id="hard-mode-descendant-sound" src="First Stance.mp3" loop></audio>
+
     <!-- Copyright -->
     <footer>
         <p>&copy; 2024 NerdJoe. All rights reserved.</p>
     </footer>
 
     <script>
+	    
+		// Set volume for all sound elements to 25%
+        const soundElements = [
+			"default-sound",
+		    "soft-sound",
+            "calm-sound",
+            "blades-sound",
+            "abyss-sound",
+            "insanity-sound",
+            "realm-sound",
+            "quest-sound",
+            "chiptune-sound",
+            "nebula-sound",
+            "quantum-sound",
+            "last-boss?-sound",
+            "hard-mode-descendant-sound"
+        ];
+		
+		soundElements.forEach(audioId => {
+		    const audio = document.getElementById(audioId);
+			audio.volume = 0.25;
+		});
+		
         // Difficulty modes
         const difficulties = [
-            { name: "Casual Mode", min: 1, max: 100, moves: Infinity, time: 120 },
-            { name: "Adventurer's Challenge", min: 1, max: 1000, moves: Infinity, time: 180 },
-            { name: "Warrior's Path", min: 1, max: 10000, moves: 100, time: 180 },
-            { name: "The Abyss", min: -100, max: 100, moves: 50, time: 120 },
-            { name: "Madman's Gambit", min: -1000, max: 1000, moves: 25, time: 90 },
-            { name: "Nightmare Realm", min: -10000, max: 10000, moves: 20, time: 60 },
-            { name: "Galactic Odyssey", min: 1, max: 1000000, moves: 10, time: 180 },
-            { name: "The Infinite Struggle", min: 1, max: 10000000000, moves: 5, time: 300 },
-            { name: "Cosmic Dilemma", min: -1000000, max: 1000000, moves: 3, time: 60 },
-            { name: "Quantum Meltdown", min: -10000000000, max: 10000000000, moves: 5, time: 30 }, // Adjusted
-            { name: "Intergalactic Warzone", min: -100000000, max: 100000000, moves: 3, time: 90 }, // Adjusted
-            { name: "Void's Edge", min: -1000000000, max: 1000000000, moves: 2, time: 60 } // Hardest level
+            { name: "Soft Start", min: 1, max: 100, moves: Infinity, time: 160, sound: "soft-sound" }, // Easiest level ever in the world even 7 years old kid can solve it easily except you're unlucky
+            { name: "Calm Crusade", min: 1, max: 1000, moves: Infinity, time: 145, sound: "calm-sound" },
+            { name: "Dancing Blades", min: 1, max: 10000, moves: 100, time: 130, sound: "blades-sound" },
+            { name: "Twilight Abyss", min: -100, max: 100, moves: 50, time: 130, sound: "abyss-sound" },
+            { name: "Essence of Insanity", min: -1000, max: 1000, moves: 25, time: 115, sound: "insanity-sound" },
+            { name: "Realm of Trials", min: -10000, max: 10000, moves: 20, time: 90, sound: "realm-sound" },
+            { name: "Interstellar Beat Quest", min: 1, max: 1000000, moves: 10, time: 90, sound: "quest-sound" },
+            { name: "Chiptune Challenge", min: 1, max: 10000000000, moves: 5, time: 75, sound: "chiptune-sound" },
+            { name: "Nebula Beatdown", min: -1000000, max: 1000000, moves: 4, time: 60, sound: "nebula-sound" },
+            { name: "Quantum Rattle", min: -10000000000, max: 10000000000, moves: 3, time: 45, sound: "quantum-sound" },
+            { name: "Prelude to Chaos", min: -100000000, max: 100000000, moves: 2, time: 30, sound: "last-boss?-sound" },
+            { name: "Worse Awaits", min: -1000000000, max: 1000000000, moves: 1, time: 15, sound: "hard-mode-descendant-sound" } // Hardest level ever in the world even the smartest human can't solve this except you're lucky
         ];
 
         // Global variables
@@ -174,12 +229,36 @@
         const gameInfo = document.getElementById("game-info");
         const timerDisplay = document.getElementById("time-left");
         const restartButton = document.getElementById("restart");
+		const correctSound = document.getElementById("correct-sound");
+		const wrongSound = document.getElementById("wrong-sound");
+		const levelClickSound = document.getElementById("level-click-sound");
+		const defaultSound = document.getElementById("default-sound");
+		const musicButton = document.getElementById("play-sound");
+		const gameOverSound = document.getElementById("game-over-sound");
+		
+		let isPlaying = false; // Track playback state
+		
+		// Default sound
+		musicButton.addEventListener('click', () => {
+		    if (isPlaying) {
+			    defaultSound.pause();
+			    musicButton.textContent = "Music: Off"
+			} else {
+			defaultSound.play().catch(err => console.error("Playback failed:", err));
+			musicButton.textContent = "Music: On";
+			}
+		isPlaying = !isPlaying;
+	});
+			
 
         // Populate difficulty options
         difficulties.forEach((difficulty, index) => {
             const button = document.createElement("button");
             button.textContent = difficulty.name;
-            button.onclick = () => startGame(index);
+            button.onclick = () => {
+			    levelClickSound.play();
+			    startGame(index);
+			};
             difficultySelection.appendChild(button);
         });
 
@@ -189,6 +268,13 @@
             answer = Math.floor(Math.random() * (selectedDifficulty.max - selectedDifficulty.min + 1)) + selectedDifficulty.min;
             movesLeft = selectedDifficulty.moves;
             timeLeft = selectedDifficulty.time;
+			
+		    // Play the appropriate sound for the selected difficulty
+			musicButton.classList.add("hidden"); // Hide the music button
+			defaultSound.pause(); // Stop the default song
+            defaultSound.currentTime = 0; // Reset to the start
+		    const difficultySound = document.getElementById(selectedDifficulty.sound);
+		    difficultySound.play(); //Play difficulty sound
 
             instruction.style.display = "none";
             difficultySelection.style.display = "none";
@@ -223,10 +309,13 @@
 
             if (guess < answer) {
                 feedback.textContent = "The number is higher!";
+				wrongSound.play();
             } else if (guess > answer) {
                 feedback.textContent = "The number is lower!";
+				wrongSound.play();
             } else {
-                endGame(true);
+                correctSound.play();
+				endGame(true);
                 return;
             }
 
@@ -242,10 +331,19 @@
             clearInterval(timerInterval);
             guessInput.disabled = true;
             submitGuessButton.disabled = true;
+			
+		// Stop the audio loop when the game ends
+		const difficultySound = document.getElementById(selectedDifficulty.sound);
+		difficultySound.pause(); // This stops the looping sound
+		difficultySound.currentTime = 0; // This resets the audio to the beginning
+		
+		// Show the music button again
+		musicButton.classList.remove("hidden");
 
             if (won) {
                 feedback.textContent = `Congratulations! You guessed the correct number: ${answer}`;
             } else {
+			    gameOverSound.play();
                 feedback.textContent = `Game over! The correct number was: ${answer}`;
             }
 

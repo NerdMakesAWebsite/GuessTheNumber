@@ -7,64 +7,194 @@
 	
     <!-- Favicon (Tab Image) -->
     <link rel="icon" type="image/png" href="NLC Profile.png">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 	
     <style>
+        :root {
+            --primary-color: #00ff00;
+            --primary-color-darker: #00cc00;
+            --secondary-color: #ff00ff;
+            --background-color: #0d0d0d;
+            --card-background: #1a1a1a;
+            --text-color: #00ff00;
+            --danger-color: #ff1a1a;
+            --hint-button-color: #007bff;
+            --hard-mode-color: #ff0000;
+        }
+
         body {
-        font-family: 'Share Tech Mono', monospace;
-        background-color: #0d0d0d;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        color: #00ff00;
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--background-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 0, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 0, 0.05) 0%, transparent 20%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-color);
+            overflow-x: hidden;
+            padding: 20px;
         }
 
         .game-container {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            background: var(--card-background);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5), inset 0 0 10px rgba(0, 255, 0, 0.2);
             text-align: center;
-            margin-bottom: 20px;
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            animation: glitch 1.5s infinite;
+            margin-bottom: 25px;
+            border: 2px solid var(--primary-color);
+            color: var(--text-color);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--primary-color) 0%, transparent 20%, transparent 80%, var(--primary-color) 100%);
+            z-index: -1;
+            border-radius: 20px;
+            opacity: 0.4;
+            animation: border-pulse 4s infinite;
+        }
+
+        @keyframes border-pulse {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.2; }
         }
 
         h1 {
-            margin: 0;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00, 0 0 10px #33ff33;
-            font-size: 2em;
-            animation: glitch 1.5s infinite;
+            margin: 0 0 15px 0;
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color), 0 0 15px var(--primary-color);
+            font-size: 2.2em;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+
+        h1::after {
+            content: 'Guess the Number';
+            position: absolute;
+            left: 2px;
+            top: 0;
+            width: 100%;
+            color: rgba(255, 0, 0, 0.5);
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: noise-anim 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes noise-anim {
+            0% { clip: rect(29px, 9999px, 65px, 0); }
+            5% { clip: rect(76px, 9999px, 56px, 0); }
+            10% { clip: rect(45px, 9999px, 37px, 0); }
+            15% { clip: rect(5px, 9999px, 53px, 0); }
+            20% { clip: rect(82px, 9999px, 16px, 0); }
+            25% { clip: rect(31px, 9999px, 94px, 0); }
+            30% { clip: rect(62px, 9999px, 78px, 0); }
+            35% { clip: rect(19px, 9999px, 40px, 0); }
+            40% { clip: rect(89px, 9999px, 28px, 0); }
+            45% { clip: rect(3px, 9999px, 82px, 0); }
+            50% { clip: rect(74px, 9999px, 42px, 0); }
+            55% { clip: rect(57px, 9999px, 70px, 0); }
+            60% { clip: rect(14px, 9999px, 23px, 0); }
+            65% { clip: rect(92px, 9999px, 48px, 0); }
+            70% { clip: rect(37px, 9999px, 14px, 0); }
+            75% { clip: rect(84px, 9999px, 62px, 0); }
+            80% { clip: rect(26px, 9999px, 79px, 0); }
+            85% { clip: rect(69px, 9999px, 31px, 0); }
+            90% { clip: rect(8px, 9999px, 93px, 0); }
+            95% { clip: rect(50px, 9999px, 17px, 0); }
+            100% { clip: rect(65px, 9999px, 54px, 0); }
         }
 
         #instruction, #feedback, #moves-left, #game-info, #timer {
-            margin: 10px 0;
+            margin: 12px 0;
+            text-shadow: 0 0 3px var(--primary-color);
+        }
+
+        #instruction {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        #feedback {
+            min-height: 60px;
+            font-size: 1.1em;
+            padding: 10px;
+            transition: all 0.3s ease;
         }
 
         input, button {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #00ff00;
-            border-radius: 5px;
-            background-color: #333;
-            color: #00ff00;
+            padding: 12px 15px;
+            margin: 10px 5px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: var(--primary-color);
             font-family: 'Share Tech Mono', monospace;
-            transition: box-shadow 0.3s;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            position: relative;
+            overflow: hidden;
         }
 
-        input:focus, button:hover {
-            box-shadow: 0 0 8px #00ff00;
+        input {
+            width: 140px;
+            text-align: center;
+        }
+
+        input:focus {
+            box-shadow: 0 0 15px var(--primary-color);
             outline: none;
+            background-color: rgba(0, 255, 0, 0.1);
         }
 
         button {
             cursor: pointer;
             font-weight: bold;
-            font-size: 1em;
+            position: relative;
+            z-index: 1;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(0, 255, 0, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        button:hover::before {
+            transform: translateX(100%);
+        }
+
+        button:hover {
+            box-shadow: 0 0 15px var(--primary-color);
+            background-color: rgba(0, 255, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
         }
 
         button:disabled {
@@ -72,28 +202,82 @@
             color: #777;
             cursor: not-allowed;
             border-color: #777;
+            box-shadow: none;
         }
 
         #restart {
             margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #ff1a1a;
-            color: #00ff00;
-            border: 1px solid #ff3333;
-            transition: background-color 0.3s;
+            padding: 12px 25px;
+            background-color: var(--danger-color);
+            color: white;
+            border: 2px solid var(--danger-color);
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
         }
 
         #restart:hover {
             background-color: #ff3333;
-            box-shadow: 0 0 10px #ff3333;
+            box-shadow: 0 0 15px #ff3333;
+        }
+
+        /* Hard mode button */
+        #hard-mode-button {
+            margin-top: 15px;
+            background: linear-gradient(45deg, #ff0000, #990000);
+            color: white;
+            border: 2px solid #ff0000;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            animation: hard-mode-pulse 2s infinite;
+        }
+
+        #hard-mode-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes hard-mode-pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+            50% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.9); }
+            100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+        }
+
+        #hard-mode-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 1);
         }
 
         /* Copyright section */
         footer {
             text-align: center;
-            margin-top: 20px;
-            color: #00ff00;
+            margin-top: 25px;
+            color: var(--primary-color);
             font-size: 12px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        footer:hover {
+            opacity: 1;
         }
 
         /* Glitch animation */
@@ -102,23 +286,27 @@
                 transform: translate(0);
                 opacity: 1;
            }
-           20% {
+           2% {
                transform: translate(-2px, 2px);
-               opacity: 0.8;
+               opacity: 0.9;
            }
-           40% {
+           4% {
                transform: translate(2px, -2px);
                opacity: 1;
            }
-           60% {
+           6% {
                transform: translate(-2px, 2px);
-               opacity: 0.8;
+               opacity: 0.9;
            }
-           80% {
+           8% {
                 transform: translate(2px, -2px);
                 opacity: 1;
             }
-           100% {
+           10% {
+                transform: translate(0);
+                opacity: 1;
+            }
+            100% {
                 transform: translate(0);
                 opacity: 1;
             }
@@ -127,7 +315,338 @@
 		.hidden {
 		    display: none;
 		}
+        
+        #difficulty-selection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 450px;
+            margin: 0 auto 15px auto;
+        }
+        
+        #difficulty-selection button {
+            background-color: var(--card-background);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            transition: all 0.3s;
+            font-size: 0.9em;
+            padding: 10px 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #difficulty-selection button::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, var(--primary-color), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        #difficulty-selection button:hover {
+            transform: translateY(-5px);
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        
+        #difficulty-selection button:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
 
+        #high-scores {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #high-scores h2 {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+            margin-top: 0;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        #scores-list div {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+            background: rgba(0, 255, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        #scores-list div:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .hints-container {
+            margin-top: 15px;
+            font-size: 0.95em;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        
+        #hints {
+            margin-bottom: 10px;
+            min-height: 20px;
+        }
+        
+        #hint-button {
+            background-color: var(--hint-button-color);
+            color: white;
+            border-color: #0056b3;
+            font-size: 0.9em;
+            padding: 8px 12px;
+        }
+
+        #hint-button:hover {
+            background-color: #0069d9;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+        }
+
+        /* Progress bar styles */
+        .progress-container {
+            width: 100%;
+            background-color: #333;
+            border-radius: 8px;
+            margin: 15px 0;
+            height: 18px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(to right, #00cc00, #00ff00);
+            transition: width 1s linear;
+            width: 100%;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%
+            );
+            background-size: 20px 20px;
+            animation: move-stripes 2s linear infinite;
+        }
+        
+        @keyframes move-stripes {
+            from { background-position: 0 0; }
+            to { background-position: 40px 0; }
+        }
+        
+        .audio-controls {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 120px;
+            height: 6px;
+            background: #333;
+            outline: none;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+            transition: all 0.2s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.9);
+        }
+
+        /* Badge for new records */
+        .new-record {
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-left: 8px;
+            animation: pulse 1.5s infinite;
+            font-weight: bold;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .game-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+        }
+        
+        #timer, #moves-left {
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        /* Modal for hard mode warning */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fade-in 0.3s;
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: #1a1a1a;
+            margin: 15% auto;
+            padding: 25px;
+            border: 2px solid #ff0000;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            position: relative;
+            animation: slide-in 0.4s;
+        }
+        
+        @keyframes slide-in {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal h2 {
+            color: #ff0000;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 0;
+        }
+        
+        .modal p {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-confirm {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+        }
+        
+        .modal-confirm:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .modal-cancel {
+            background-color: #333;
+            color: white;
+            border: none;
+        }
+        
+        .modal-cancel:hover {
+            background-color: #555;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            #difficulty-selection {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .game-controls {
+                flex-direction: column;
+            }
+            
+            input, button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -137,38 +656,72 @@
         <div id="difficulty-selection"></div>
         <div id="game-area" style="display: none;">
             <p id="game-info"></p>
-            <p id="timer">Time left: <span id="time-left">0</span> seconds</p>
-            <input type="number" id="guess-input" placeholder="Enter your guess" disabled>
-            <button id="submit-guess" disabled>Submit Guess</button>
+            <div class="progress-container">
+                <div class="progress-bar" id="time-progress"></div>
+            </div>
+            <div class="game-status">
+                <p id="timer">Time: <span id="time-left">0</span>s</p>
+                <p id="moves-left"></p>
+            </div>
+            <div class="game-controls">
+                <input type="number" id="guess-input" placeholder="Enter your guess" disabled>
+                <button id="submit-guess" disabled>Submit</button>
+            </div>
             <p id="feedback"></p>
-            <p id="moves-left"></p>
+            <div class="hints-container">
+                <p id="hints"></p>
+                <button id="hint-button" style="display: none;">Get Hint (Cost: 2 moves)</button>
+            </div>
         </div>
         <button id="restart" style="display: none;">Play Again</button>
+        
+        <div class="audio-controls">
+            <button id="play-sound">Music: Off</button>
+            <input type="range" class="volume-slider" id="volume-control" min="0" max="100" value="25">
+        </div>
+		<button id="hard-mode-button">Enter Hard Mode (Coming Soon)</button>
+    </div>
+
+    <div id="high-scores" class="hidden">
+        <h2>High Scores</h2>
+        <div id="scores-list"></div>
+    </div>
+
+    <!-- Hard Mode Warning Modal -->
+    <div id="hard-mode-modal" class="modal">
+        <div class="modal-content">
+            <h2>WARNING: HARD MODE</h2>
+            <p>You are about to enter a mode so difficult that few have survived. The challenges ahead will test your sanity and mathematical prowess. Are you sure you want to proceed?</p>
+            <div class="modal-buttons">
+                <button class="modal-button modal-confirm" id="confirm-hard-mode">I'm Ready</button>
+                <button class="modal-button modal-cancel" id="cancel-hard-mode">Not Today</button>
+            </div>
+        </div>
     </div>
 
     <!-- Audio for certain sound effects -->
     <audio id="correct-sound" src="Correct.mp3"></audio>
     <audio id="wrong-sound" src="Wrong.mp3"></audio>
-	<audio id="level-click-sound" src="level-button.mp3"></audio>
-	<audio id="game-over-sound" src="Game Over.mp3"></audio>
-	
-	<!-- Audio for theme -->
-	<!-- Default -->
-	<audio id="default-sound" src="Bossa Me.mp3" loop></audio>
-	<button id="play-sound">Music: Off</button> <button>Hard Mode (Coming Soon)</button>
-	<!-- Every level's theme -->
-	<audio id="soft-sound" src="Sunset Party.mp3" loop></audio>
-	<audio id="calm-sound" src="Relaxed Scene.mp3" loop></audio>
-	<audio id="blades-sound" src="Bossa Nova Party (Remastered).mp3" loop></audio>
-	<audio id="abyss-sound" src="Violet Clouds.mp3" loop></audio>
-	<audio id="insanity-sound" src="Solute.mp3" loop></audio>
-	<audio id="realm-sound" src="Obby7.mp3" loop></audio>
-	<audio id="quest-sound" src="All Dropping 8 Bit Beats.mp3" loop></audio>
-	<audio id="chiptune-sound" src="All 8 Bit Now.mp3" loop></audio>
-	<audio id="nebula-sound" src="M.U.L.E (Bitblaster Mix).mp3" loop></audio>
-	<audio id="quantum-sound" src="Bonetrousle.mp3" loop></audio>
-	<audio id="last-boss?-sound" src="Finale.mp3" loop></audio>
-	<audio id="hard-mode-descendant-sound" src="First Stance.mp3" loop></audio>
+    <audio id="level-click-sound" src="level-button.mp3"></audio>
+    <audio id="game-over-sound" src="Game Over.mp3"></audio>
+	<audio id="warning-sound" src="Warning.mp3"></audio>
+    
+    <!-- Audio for theme -->
+    <!-- Default -->
+    <audio id="default-sound" src="Bossa Me.mp3" loop></audio>
+    <!-- Every level's theme -->
+    <audio id="soft-sound" src="Sunset Party.mp3" loop></audio>
+    <audio id="calm-sound" src="Relaxed Scene.mp3" loop></audio>
+    <audio id="blades-sound" src="Bossa Nova Party (Remastered).mp3" loop></audio>
+    <audio id="abyss-sound" src="Violet Clouds.mp3" loop></audio>
+    <audio id="insanity-sound" src="Solute.mp3" loop></audio>
+    <audio id="realm-sound" src="Obby7.mp3" loop></audio>
+    <audio id="quest-sound" src="All Dropping 8 Bit Beats.mp3" loop></audio>
+    <audio id="chiptune-sound" src="All 8 Bit Now.mp3" loop></audio>
+    <audio id="nebula-sound" src="M.U.L.E (Bitblaster Mix).mp3" loop></audio>
+    <audio id="quantum-sound" src="Bonetrousle.mp3" loop></audio>
+    <audio id="last-boss?-sound" src="Finale.mp3" loop></audio>
+    <audio id="hard-mode-descendant-sound" src="First Stance.mp3" loop></audio>
 
     <!-- Copyright -->
     <footer>
@@ -176,11 +729,10 @@
     </footer>
 
     <script>
-	    
-		// Set volume for all sound elements to 25%
+        // Set volume for all sound elements
         const soundElements = [
-			"default-sound",
-		    "soft-sound",
+            "default-sound",
+            "soft-sound",
             "calm-sound",
             "blades-sound",
             "abyss-sound",
@@ -191,32 +743,54 @@
             "nebula-sound",
             "quantum-sound",
             "last-boss?-sound",
-            "hard-mode-descendant-sound"
+            "hard-mode-descendant-sound",
+            "correct-sound",
+            "wrong-sound",
+            "level-click-sound",
+            "game-over-sound",
+			"warning-sound"
         ];
-		
-		soundElements.forEach(audioId => {
-		    const audio = document.getElementById(audioId);
-			audio.volume = 0.25;
-		});
-		
+        
+        // Volume control
+        const volumeControl = document.getElementById("volume-control");
+        volumeControl.addEventListener('input', () => {
+            const volume = volumeControl.value / 100;
+            soundElements.forEach(audioId => {
+                const audio = document.getElementById(audioId);
+                audio.volume = volume;
+            });
+        });
+        
+        // Initialize volumes
+        soundElements.forEach(audioId => {
+            const audio = document.getElementById(audioId);
+            audio.volume = 0.25;
+        });
+        
         // Difficulty modes
         const difficulties = [
-            { name: "Soft Start", min: 1, max: 100, moves: Infinity, time: 160, sound: "soft-sound" }, // Easiest level ever in the world even 7 years old kid can solve it easily except you're unlucky
-            { name: "Calm Crusade", min: 1, max: 1000, moves: Infinity, time: 145, sound: "calm-sound" },
-            { name: "Dancing Blades", min: 1, max: 10000, moves: 100, time: 130, sound: "blades-sound" },
-            { name: "Twilight Abyss", min: -100, max: 100, moves: 50, time: 130, sound: "abyss-sound" },
-            { name: "Essence of Insanity", min: -1000, max: 1000, moves: 25, time: 115, sound: "insanity-sound" },
-            { name: "Realm of Trials", min: -10000, max: 10000, moves: 20, time: 90, sound: "realm-sound" },
-            { name: "Interstellar Beat Quest", min: 1, max: 1000000, moves: 10, time: 90, sound: "quest-sound" },
-            { name: "Chiptune Challenge", min: 1, max: 10000000000, moves: 5, time: 75, sound: "chiptune-sound" },
-            { name: "Nebula Beatdown", min: -1000000, max: 1000000, moves: 4, time: 60, sound: "nebula-sound" },
-            { name: "Quantum Rattle", min: -10000000000, max: 10000000000, moves: 3, time: 45, sound: "quantum-sound" },
-            { name: "Prelude to Chaos", min: -100000000, max: 100000000, moves: 2, time: 30, sound: "last-boss?-sound" },
-            { name: "Worse Awaits", min: -1000000000, max: 1000000000, moves: 1, time: 15, sound: "hard-mode-descendant-sound" } // Hardest level ever in the world even the smartest human can't solve this except you're lucky
+            { name: "Soft Start", min: 1, max: 100, moves: Infinity, time: 160, sound: "soft-sound", points: 10 },
+            { name: "Calm Crusade", min: 1, max: 1000, moves: Infinity, time: 145, sound: "calm-sound", points: 20 },
+            { name: "Dancing Blades", min: 1, max: 10000, moves: 100, time: 130, sound: "blades-sound", points: 30 },
+            { name: "Twilight Abyss", min: -100, max: 100, moves: 50, time: 130, sound: "abyss-sound", points: 40 },
+            { name: "Essence of Insanity", min: -1000, max: 1000, moves: 25, time: 115, sound: "insanity-sound", points: 50 },
+            { name: "Realm of Trials", min: -10000, max: 10000, moves: 20, time: 90, sound: "realm-sound", points: 60 },
+            { name: "Interstellar Beat Quest", min: 1, max: 1000000, moves: 10, time: 90, sound: "quest-sound", points: 70 },
+            { name: "Chiptune Challenge", min: 1, max: 10000000000, moves: 5, time: 75, sound: "chiptune-sound", points: 80 },
+            { name: "Nebula Beatdown", min: -1000000, max: 1000000, moves: 4, time: 60, sound: "nebula-sound", points: 90 },
+            { name: "Quantum Rattle", min: -10000000000, max: 10000000000, moves: 3, time: 45, sound: "quantum-sound", points: 100 },
+            { name: "Prelude to Chaos", min: -100000000, max: 100000000, moves: 2, time: 30, sound: "last-boss?-sound", points: 150 },
+            { name: "Worse Awaits", min: -1000000000, max: 1000000000, moves: 1, time: 15, sound: "hard-mode-descendant-sound", points: 200 }
         ];
 
         // Global variables
         let selectedDifficulty, answer, movesLeft, timerInterval, timeLeft;
+        let hintsUsed = 0;
+        let guessHistory = [];
+        let highScores = loadHighScores();
+        let gameActive = false;
+        let startTime = 0;
+		let currentAnswer = null;
 
         // DOM elements
         const difficultySelection = document.getElementById("difficulty-selection");
@@ -229,52 +803,191 @@
         const gameInfo = document.getElementById("game-info");
         const timerDisplay = document.getElementById("time-left");
         const restartButton = document.getElementById("restart");
-		const correctSound = document.getElementById("correct-sound");
-		const wrongSound = document.getElementById("wrong-sound");
-		const levelClickSound = document.getElementById("level-click-sound");
-		const defaultSound = document.getElementById("default-sound");
-		const musicButton = document.getElementById("play-sound");
-		const gameOverSound = document.getElementById("game-over-sound");
+        const correctSound = document.getElementById("correct-sound");
+        const wrongSound = document.getElementById("wrong-sound");
+        const levelClickSound = document.getElementById("level-click-sound");
+        const defaultSound = document.getElementById("default-sound");
+        const musicButton = document.getElementById("play-sound");
+        const gameOverSound = document.getElementById("game-over-sound");
+        const hintButton = document.getElementById("hint-button");
+        const hintsDisplay = document.getElementById("hints");
+        const timeProgressBar = document.getElementById("time-progress");
+        const highScoresContainer = document.getElementById("high-scores");
+        const scoresList = document.getElementById("scores-list");
+		const hardModeWarn = document.getElementById("warning-sound");
+		const hardModeModal = document.getElementById("hard-mode-modal");
+        const hardModeButton = document.getElementById("hard-mode-button");
+        const confirmHardMode = document.getElementById("confirm-hard-mode");
+        const cancelHardMode = document.getElementById("cancel-hard-mode");
+        
+        let isPlaying = false; // Track playback state
+        
+        // Handle music toggle
+        musicButton.addEventListener('click', () => {
+            if (isPlaying) {
+                if (gameActive) {
+                    const difficultySound = document.getElementById(selectedDifficulty.sound);
+                    difficultySound.pause();
+                } else {
+                    defaultSound.pause();
+                }
+                musicButton.textContent = "Music: Off";
+            } else {
+                if (gameActive) {
+                    const difficultySound = document.getElementById(selectedDifficulty.sound);
+                    difficultySound.play().catch(err => console.error("Playback failed:", err));
+                } else {
+                    defaultSound.play().catch(err => console.error("Playback failed:", err));
+                }
+                musicButton.textContent = "Music: On";
+            }
+            isPlaying = !isPlaying;
+        });
+        
+		// Show the modal when the hard mode button is clicked
+        hardModeButton.addEventListener("click", () => {
+            hardModeModal.style.display = "flex";
+			hardModeWarn.currentTime = 0;
+			hardModeWarn.loop = true;
+            hardModeWarn.play();
+        });
+
+        // Handle the confirmation
+        confirmHardMode.addEventListener("click", () => {
+            hardModeModal.style.display = "none";
+			hardModeWarn.pause();
+			hardModeWarn.currentTime = 0;
+			hardModeWarn.loop = false;
+			//window.location.href = "hardmode.html";
+		});
 		
-		let isPlaying = false; // Track playback state
+		// Handle the cancellation
+        cancelHardMode.addEventListener("click", () => {
+            hardModeModal.style.display = "none";
+			hardModeWarn.pause();
+			hardModeWarn.currentTime = 0;
+			hardModeWarn.loop = false;
+        });
+
+        // Close the modal if the user clicks outside of it
+        window.addEventListener("click", (event) => {
+            if (event.target === hardModeModal) {
+                hardModeModal.style.display = "none";
+				hardModeWarn.pause();
+				hardModeWarn.currentTime = 0;
+				hardModeWarn.loop = false;
+            }
+        });
 		
-		// Default sound
-		musicButton.addEventListener('click', () => {
-		    if (isPlaying) {
-			    defaultSound.pause();
-			    musicButton.textContent = "Music: Off"
-			} else {
-			defaultSound.play().catch(err => console.error("Playback failed:", err));
-			musicButton.textContent = "Music: On";
-			}
-		isPlaying = !isPlaying;
-	});
-			
+        // Load high scores from local storage
+        function loadHighScores() {
+            const scores = localStorage.getItem('numberGuessHighScores');
+            return scores ? JSON.parse(scores) : {};
+        }
+        
+        // Save high scores to local storage
+        function saveHighScores() {
+            localStorage.setItem('numberGuessHighScores', JSON.stringify(highScores));
+            updateHighScoresDisplay();
+        }
+        
+        // Update high scores display
+        function updateHighScoresDisplay() {
+            scoresList.innerHTML = '';
+            let hasScores = false;
+            
+            difficulties.forEach((difficulty, index) => {
+                const difficultyScores = highScores[difficulty.name];
+                if (difficultyScores && difficultyScores.score > 0) {
+                    hasScores = true;
+                    const scoreItem = document.createElement('div');
+                    scoreItem.innerHTML = `<strong>${difficulty.name}:</strong> ${difficultyScores.score} points (${difficultyScores.movesUsed} moves, ${difficultyScores.timeUsed}s)`;
+                    if (difficultyScores.isNew) {
+                        const newBadge = document.createElement('span');
+                        newBadge.className = 'new-record';
+                        newBadge.textContent = 'NEW!';
+                        scoreItem.appendChild(newBadge);
+                        // Reset the "new" flag after displaying
+                        setTimeout(() => {
+                            highScores[difficulty.name].isNew = false;
+                            saveHighScores();
+                        }, 5000);
+                    }
+                    scoresList.appendChild(scoreItem);
+                }
+            });
+            
+            if (hasScores) {
+                highScoresContainer.classList.remove('hidden');
+            } else {
+                highScoresContainer.classList.add('hidden');
+            }
+        }
 
         // Populate difficulty options
         difficulties.forEach((difficulty, index) => {
             const button = document.createElement("button");
             button.textContent = difficulty.name;
             button.onclick = () => {
-			    levelClickSound.play();
-			    startGame(index);
-			};
+                levelClickSound.play();
+                startGame(index);
+            };
             difficultySelection.appendChild(button);
         });
+
+        // Calculate score based on difficulty, moves used, and time used
+        function calculateScore(difficulty, movesUsed, timeUsed) {
+            // Base points from difficulty
+            let score = difficulty.points;
+            
+            // Bonus for quick solving
+            const timeBonus = Math.floor((difficulty.time - timeUsed) / difficulty.time * 50);
+            
+            // Bonus for fewer moves (only if moves are limited)
+            let moveBonus = 0;
+            if (difficulty.moves !== Infinity) {
+                moveBonus = Math.floor((difficulty.moves - movesUsed) / difficulty.moves * 50);
+            }
+            
+            // Penalty for hints
+            const hintPenalty = hintsUsed * 15;
+            
+            return Math.max(0, score + timeBonus + moveBonus - hintPenalty);
+        }
 
         // Start the game
         function startGame(difficultyIndex) {
             selectedDifficulty = difficulties[difficultyIndex];
-            answer = Math.floor(Math.random() * (selectedDifficulty.max - selectedDifficulty.min + 1)) + selectedDifficulty.min;
+			
+            // Only generate a new answer if we don't have one for this difficulty or the game was won/lost
+            if (currentAnswer === null || !gameActive) {
+                answer = Math.floor(Math.random() * (selectedDifficulty.max - selectedDifficulty.min + 1)) + selectedDifficulty.min;
+                currentAnswer = answer; // Store the generated number
+            } else {
+                answer = currentAnswer; // Use the stored number
+            }
             movesLeft = selectedDifficulty.moves;
             timeLeft = selectedDifficulty.time;
-			
-		    // Play the appropriate sound for the selected difficulty
-			musicButton.classList.add("hidden"); // Hide the music button
-			defaultSound.pause(); // Stop the default song
+            hintsUsed = 0;
+            guessHistory = [];
+            gameActive = true;
+            startTime = Date.now();
+            
+            // Show hint button for levels with limited moves
+            if (selectedDifficulty.moves !== Infinity && selectedDifficulty.moves > 2) {
+                hintButton.style.display = 'block';
+            } else {
+                hintButton.style.display = 'none';
+            }
+            
+            // Play the appropriate sound for the selected difficulty
+            defaultSound.pause(); // Stop the default song
             defaultSound.currentTime = 0; // Reset to the start
-		    const difficultySound = document.getElementById(selectedDifficulty.sound);
-		    difficultySound.play(); //Play difficulty sound
+            const difficultySound = document.getElementById(selectedDifficulty.sound);
+            
+            if (isPlaying) {
+                difficultySound.play(); // Play difficulty sound if music is on
+            }
 
             instruction.style.display = "none";
             difficultySelection.style.display = "none";
@@ -282,17 +995,43 @@
             restartButton.style.display = "none";
             guessInput.disabled = false;
             submitGuessButton.disabled = false;
+            highScoresContainer.classList.add('hidden');
 
             feedback.textContent = "";
+            hintsDisplay.textContent = "";
             gameInfo.textContent = `Guess a number between ${selectedDifficulty.min} and ${selectedDifficulty.max}`;
-            movesLeftDisplay.textContent = `Moves left: ${movesLeft}`;
+            
+            if (movesLeft === Infinity) {
+                movesLeftDisplay.textContent = `Moves: Unlimited`;
+            } else {
+                movesLeftDisplay.textContent = `Moves: ${movesLeft}`;
+            }
+            
             timerDisplay.textContent = timeLeft;
+            timeProgressBar.style.width = '100%';
 
+            // Focus on input field
+            guessInput.focus();
+            
             // Start the timer
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerDisplay.textContent = timeLeft;
+                
+                // Update progress bar
+                const percentage = (timeLeft / selectedDifficulty.time) * 100;
+                timeProgressBar.style.width = `${percentage}%`;
+                
+                // Change color based on time remaining
+                if (percentage > 60) {
+                    timeProgressBar.style.backgroundColor = '#00ff00';
+                } else if (percentage > 30) {
+                    timeProgressBar.style.backgroundColor = '#ffff00';
+                } else {
+                    timeProgressBar.style.backgroundColor = '#ff0000';
+                }
+                
                 if (timeLeft <= 0) {
                     endGame(false);
                 }
@@ -300,64 +1039,171 @@
         }
 
         // Handle guess submission
-        submitGuessButton.onclick = () => {
+        submitGuessButton.onclick = submitGuess;
+        
+        // Allow Enter key to submit guess
+        guessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitGuess();
+            }
+        });
+        
+        function submitGuess() {
             const guess = Number(guessInput.value);
             if (isNaN(guess)) {
                 feedback.textContent = "Please enter a valid number!";
                 return;
             }
-
+            
+            // Clear input for next guess
+            guessInput.value = '';
+            guessInput.focus();
+            
+            // Add to guess history
+            guessHistory.push(guess);
+            
             if (guess < answer) {
                 feedback.textContent = "The number is higher!";
-				wrongSound.play();
+                wrongSound.play();
             } else if (guess > answer) {
                 feedback.textContent = "The number is lower!";
-				wrongSound.play();
+                wrongSound.play();
             } else {
                 correctSound.play();
-				endGame(true);
+                endGame(true);
                 return;
             }
 
-            movesLeft--;
-            movesLeftDisplay.textContent = `Moves left: ${movesLeft}`;
+            // Update moves left if not infinity
+            if (movesLeft !== Infinity) {
+                movesLeft--;
+                movesLeftDisplay.textContent = `Moves: ${movesLeft}`;
+                if (movesLeft <= 0) {
+                    endGame(false);
+                }
+            } else {
+                const movesMade = guessHistory.length;
+                movesLeftDisplay.textContent = `Moves: ${movesMade}`;
+            }
+        }
+        
+        // Provide hint at the cost of moves
+        hintButton.addEventListener('click', function() {
+            if (!gameActive || movesLeft <= 2) return;
+            
+            // Deduct moves for hint
+            movesLeft -= 2;
+            movesLeftDisplay.textContent = `Moves: ${movesLeft}`;
+            hintsUsed++;
+            
+            // Provide a targeted hint based on the range
+            let hintText = "";
+            
+            if (guessHistory.length > 0) {
+                // Find min and max from guess history
+                const validGuesses = guessHistory.filter(g => g !== answer);
+                if (validGuesses.length > 0) {
+                    const lowerBound = Math.max(...validGuesses.filter(g => g < answer), selectedDifficulty.min);
+                    const upperBound = Math.min(...validGuesses.filter(g => g > answer), selectedDifficulty.max);
+                    
+                    // Calculate a more specific hint
+                    const range = upperBound - lowerBound;
+                    let hintNumber;
+                    
+                    if (range > 10000) {
+                        // For very large ranges, give order of magnitude
+                        const orderOfMagnitude = Math.floor(Math.log10(answer));
+                        hintText = `The answer has ${orderOfMagnitude + 1} digits.`;
+                    } else if (range > 100) {
+                        // For medium ranges, give a rough area
+                        const segment = Math.floor(range / 10);
+                        const lowerHint = Math.max(lowerBound, answer - segment);
+                        const upperHint = Math.min(upperBound, answer + segment);
+                        hintText = `The answer is between ${lowerHint} and ${upperHint}.`;
+                    } else {
+                        // For small ranges, give a very close hint
+                        hintText = `The answer is ${answer % 2 === 0 ? 'even' : 'odd'} and close to ${Math.floor(answer / 10) * 10}.`;
+                    }
+                } else {
+                    // If no valid guesses yet
+                    const orderOfMagnitude = Math.floor(Math.log10(Math.abs(answer)));
+                    hintText = `The answer has ${orderOfMagnitude + 1} digits and is ${answer < 0 ? 'negative' : 'positive'}.`;
+                }
+            } else {
+                // First hint without any guesses
+                const orderOfMagnitude = Math.floor(Math.log10(Math.abs(answer)));
+                hintText = `The answer has ${orderOfMagnitude + 1} digits and is ${answer < 0 ? 'negative' : 'positive'}.`;
+            }
+            
+            hintsDisplay.textContent = hintText;
+            
+            // Check if we've used too many moves
             if (movesLeft <= 0) {
                 endGame(false);
             }
-        };
+        });
 
         // End the game
         function endGame(won) {
             clearInterval(timerInterval);
             guessInput.disabled = true;
             submitGuessButton.disabled = true;
-			
-		// Stop the audio loop when the game ends
-		const difficultySound = document.getElementById(selectedDifficulty.sound);
-		difficultySound.pause(); // This stops the looping sound
-		difficultySound.currentTime = 0; // This resets the audio to the beginning
-		
-		// Show the music button again
-		musicButton.classList.remove("hidden");
-
+            hintButton.style.display = 'none';
+            gameActive = false;
+            
+            // Stop the audio loop when the game ends
+            const difficultySound = document.getElementById(selectedDifficulty.sound);
+            difficultySound.pause();
+            difficultySound.currentTime = 0;
+            
+            const timeUsed = selectedDifficulty.time - timeLeft;
+            const movesUsed = selectedDifficulty.moves === Infinity ? guessHistory.length : selectedDifficulty.moves - movesLeft;
+            
             if (won) {
-                feedback.textContent = `Congratulations! You guessed the correct number: ${answer}`;
+			    currentAnswer = null;
+                // Calculate score
+                const score = calculateScore(selectedDifficulty, movesUsed, timeUsed);
+                
+                // Update high scores
+                let isNewRecord = false;
+                if (!highScores[selectedDifficulty.name] || score > highScores[selectedDifficulty.name].score) {
+                    highScores[selectedDifficulty.name] = {
+                        score,
+                        movesUsed,
+                        timeUsed,
+                        isNew: true
+                    };
+                    isNewRecord = true;
+                    saveHighScores();
+                }
+                
+                feedback.textContent = `Congratulations! You guessed the correct number: ${answer}
+                    Score: ${score} points
+                    Time: ${timeUsed} seconds
+                    Moves: ${movesUsed}
+                    ${isNewRecord ? 'NEW RECORD!' : ''}`;
             } else {
-			    gameOverSound.play();
+                gameOverSound.play();
                 feedback.textContent = `Game over! The correct number was: ${answer}`;
             }
 
             restartButton.style.display = "block";
+            updateHighScoresDisplay();
         }
 
         // Restart the game
         restartButton.onclick = () => {
+		    currentAnswer = null;
             instruction.style.display = "block";
             difficultySelection.style.display = "block";
             gameArea.style.display = "none";
             restartButton.style.display = "none";
             guessInput.value = "";
+            updateHighScoresDisplay();
         };
+        
+        // Update high scores display on load
+        updateHighScoresDisplay();
     </script>
 </body>
 </html>
